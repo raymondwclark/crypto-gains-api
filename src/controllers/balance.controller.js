@@ -1,5 +1,3 @@
-const { response } = require('express');
-
 function balanceController() {
     const GateApi = require('gate-api');
     const axios = require('axios');
