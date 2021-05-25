@@ -1,0 +1,28 @@
+{
+  "name": "crypto-gains-api",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "node ./src/index.js",
+    "local": "nodemon",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Raymond Clark",
+  "license": "ISC",
+  "dependencies": {
+    "axios": "^0.21.1",
+    "body-parser": "^1.19.0",
+    "cors": "^2.8.5",
+    "croxydb": "0.0.7",
+    "dotenv": "^9.0.2",
+    "express": "^4.17.1",
+    "gate-api": "github:gateio/gateapi-js",
+    "pjson": "^1.0.9",
+    "pug": "^3.0.2",
+    "qs": "^6.10.1"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.7"
+  }
+}
