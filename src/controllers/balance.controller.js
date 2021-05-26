@@ -113,7 +113,7 @@ function balanceController() {
             });
 
             // Only set after it's been 24 hours or no entry
-            if (Math.abs(new Date() - lastPulledTimestamp) >= (60 * 60 *24 * 1000) || lastPulledTimestamp === undefined) {
+            if (Math.abs(new Date().getTime() - new Date(lastPulledTimestamp).getTime()) >= (60 * 60 * 24 * 1000) || lastPulledTimestamp === undefined) {
                 dbClient.writeObject('binance', binanceBalance);
                 dbClient.writeObject('safemoon', safemoonBalance);
                 dbClient.writeObject('bonfire', bonfireBalance);
