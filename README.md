@@ -19,7 +19,7 @@ BSC_API_KEY=<api key for bscscan.com>
 BONFIRE_CONTRACT_ADDRESS=<contract for bonfire>
 BONFIRE_WALLET=<your bonfire wallet address>
 
-COINMARKETCAP_API_KEY=<api key for coinmarketcap.com>
+LIVECOINWATCH_API_KEY=<api key for livecoinwatch.com>
 ```
 - Run `npm install` at project root
 - Run `npm run local` for local development or `npm start`

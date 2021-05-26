@@ -70,36 +70,21 @@ function balanceController() {
             try {
                 let result = await axios.get(`https://api.bscscan.com/api?module=account&action=tokenbalance&contractaddress=${contractAddress}&address=${walletAddress}&tag=latest&apikey=${bscApiKey}`);
                 let totalCoin = result.data.result * 0.000000001;
-    
-                if (symbol === 'bonfire') {
-                    try {
-                        let result = await axios.get(`https://pro-api.coinmarketcap.com/v1/cryptocurrency/quotes/latest?slug=${symbol}`, {
-                            headers: {
-                                'X-CMC_PRO_API_KEY': process.env.COINMARKETCAP_API_KEY
-                            }
-                        })
 
-                        let currentPrice = result.data.data[9522].quote.USD.price;
-                        let coinValue = totalCoin * currentPrice;
-                        return resolve(coinValue.toFixed(2));
-                    } catch (err) {
-                        return reject(err);
+                let coinData = await axios.post('https://api.livecoinwatch.com/coins/single', {
+                    currency: 'USD',
+                    code: symbol,
+                    meta: true
+                }, {
+                    headers: {
+                        'x-api-key': process.env.LIVECOINWATCH_API_KEY
                     }
-                } else {
-                    let gateApi = new GateApi.SpotApi();
-                    var opts = {
-                        'currencyPair': symbol
-                    };
+                });
 
-                    gateApi.listTickers(opts, (err, data, response) => {
-                        if (err) return reject(err);
-                        let currentPrice = JSON.parse(response.text)[0].last;
-                        
-                        let coinValue = totalCoin * currentPrice;
-            
-                        return resolve(coinValue.toFixed(2));
-                    });
-                }
+                let currentPrice = coinData.data.rate;
+                let coinValue = totalCoin * currentPrice;
+
+                return resolve(coinValue.toFixed(2));
             } catch (err) {
                 return reject(err);
             }
@@ -110,8 +95,8 @@ function balanceController() {
     this.getBalances = async (req, res) => {
         try {
             let binanceBalance = await this.getBinanceBalance();
-            let safemoonBalance = await this.getAltcoinBalance(process.env.SAFEMOON_CONTRACT_ADDRESS, process.env.SAFEMOON_WALLET, process.env.BSC_API_KEY, 'SAFEMOON_USDT');
-            let bonfireBalance = await this.getAltcoinBalance(process.env.BONFIRE_CONTRACT_ADDRESS, process.env.BONFIRE_WALLET, process.env.BSC_API_KEY, 'bonfire')
+            let safemoonBalance = await this.getAltcoinBalance(process.env.SAFEMOON_CONTRACT_ADDRESS, process.env.SAFEMOON_WALLET, process.env.BSC_API_KEY, 'SAFEMOON');
+            let bonfireBalance = await this.getAltcoinBalance(process.env.BONFIRE_CONTRACT_ADDRESS, process.env.BONFIRE_WALLET, process.env.BSC_API_KEY, 'BEP20')
 
             let total = Number(Number(binanceBalance) + Number(safemoonBalance) + Number(bonfireBalance)).toFixed(2);
 
