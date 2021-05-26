@@ -33,7 +33,7 @@ function balanceController() {
             await Promise.all(heldCoins.map(async (coin) => {
                 try {
                     // get current price of coins
-                    const result = await axios.get(process.env.BINANCE_BASE_URL + `/api/v3/avgPrice?${qs.stringify({ symbol: coin.asset + 'USD' })}`, {
+                    const result = await axios.get(process.env.BINANCE_BASE_URL + `/api/v3/ticker/price?${qs.stringify({ symbol: coin.asset + 'USD' })}`, {
                         'User-Agent': 'investment-gains-v1.0',
                         'Content-Type': 'application/json',
                         'Access-Control-Allow-Origin': '*', 
